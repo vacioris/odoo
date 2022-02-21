@@ -33,7 +33,11 @@ There are a few things you can configure, this is the most used list:<br/>
 ```
 sudo chmod +x odoo_install.sh
 ```
-##### 4. Execute the script:
+##### 4. Execute the pre-script:
+```
+sudo apt-get install software-properties-common
+```
+##### 5. Execute the script:
 ```
 sudo ./odoo_install.sh
 ```
