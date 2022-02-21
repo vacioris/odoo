@@ -14,7 +14,7 @@
 # ./odoo-install
 ################################################################################
 
-OE_USER="7erz"
+OE_USER="odoo15"
 OE_HOME="/$OE_USER"
 OE_HOME_EXT="/$OE_USER/${OE_USER}-server"
 # The default port where this Odoo instance will run under (provided you use the command -c in the terminal)
@@ -35,7 +35,7 @@ OE_SUPERADMIN="herz"
 GENERATE_RANDOM_PASSWORD="True"
 OE_CONFIG="${OE_USER}-server"
 # Set the website name
-WEBSITE_NAME="lqwb.eirmedic.com"
+WEBSITE_NAME="LWBQ"
 # Set the default Odoo longpolling port (you still have to use -c /etc/odoo-server.conf for example to use this.)
 LONGPOLLING_PORT="8072"
 # Set to "True" to install certbot and have ssl enabled, "False" to use http
