@@ -41,7 +41,7 @@ LONGPOLLING_PORT="8072"
 # Set to "True" to install certbot and have ssl enabled, "False" to use http
 ENABLE_SSL="False"
 # Provide Email to register ssl certificate
-ADMIN_EMAIL="admin@tanzxpress.com"
+ADMIN_EMAIL="admin@vitalhis.com"
 ##
 ###  WKHTMLTOPDF download links
 ## === Ubuntu Trusty x64 & x32 === (for other distributions please replace these two links,
