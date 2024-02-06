@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
 # Script for installing Odoo on Ubuntu 16.04, 18.04 and 20.04 (could be used for other version too)
-# Author: Yenthe Van Ginneken
+# Author: Herz
 #-------------------------------------------------------------------------------
 # This script will install Odoo on your Ubuntu 20.04 server. It can install multiple Odoo instances
 # in one Ubuntu because of the different xmlrpc_ports
@@ -41,7 +41,7 @@ LONGPOLLING_PORT="8072"
 # Set to "True" to install certbot and have ssl enabled, "False" to use http
 ENABLE_SSL="False"
 # Provide Email to register ssl certificate
-ADMIN_EMAIL="admin@vitalhis"
+ADMIN_EMAIL="admin@tanzxpress.com"
 ##
 ###  WKHTMLTOPDF download links
 ## === Ubuntu Trusty x64 & x32 === (for other distributions please replace these two links,
