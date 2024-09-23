@@ -39,7 +39,7 @@ WEBSITE_NAME="vitalhis.com"
 # Set the default Odoo longpolling port (you still have to use -c /etc/odoo-server.conf for example to use this.)
 LONGPOLLING_PORT="8072"
 # Set to "True" to install certbot and have ssl enabled, "False" to use http
-ENABLE_SSL="TRUE"
+ENABLE_SSL="FALSE"
 # Provide Email to register ssl certificate
 ADMIN_EMAIL="admin@vitalhis.com"
 ##
