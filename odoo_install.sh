@@ -51,8 +51,6 @@ ADMIN_EMAIL="admin@vitalhis.com"
 ## https://github.com/odoo/odoo/wiki/Wkhtmltopdf ):
 ## https://www.odoo.com/documentation/13.0/setup/install.html#debian-ubuntu
 
-WKHTMLTOX_X64="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.$(lsb_release -c -s)_amd64.deb"
-WKHTMLTOX_X32="https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.$(lsb_release -c -s)_i386.deb"
 #--------------------------------------------------
 # Update Server
 #--------------------------------------------------
@@ -94,11 +92,16 @@ sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
 echo -e "\n--- Installing Python 3 + pip3 --"
 sudo apt-get install git python3 python3-pip build-essential wget python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools node-less libpng12-0 libjpeg-dev gdebi -y
 
+echo -e "\n================== Install Wkhtmltopdf ============================================="
+sudo apt -y install xfonts-75dpi xfonts-encodings xfonts-utils xfonts-base fontconfig
+
 echo -e "\n---- Install python packages/requirements ----"
 sudo -H pip3 install -r https://raw.githubusercontent.com/vacioris/odoo/23df3fa21418361e1fc6d687686278474206eb36/requirements.txt
 
-echo -e "\n---- Installing nodeJS NPM and rtlcss for LTR support ----"
-sudo apt-get install nodejs npm -y
+echo -e "\n=========== Installing nodeJS NPM and rtlcss for LTR support =================="
+sudo apt -y install nodejs npm
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+sudo npm install -g less less-plugin-clean-css
 sudo npm install -g rtlcss
 
 #--------------------------------------------------
