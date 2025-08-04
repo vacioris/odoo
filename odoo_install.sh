@@ -27,6 +27,8 @@ OE_PORT="8043"
 OE_VERSION="15.0"
 # Set this to True if you want to install the Odoo enterprise version!
 IS_ENTERPRISE="False"
+# Installs postgreSQL V16 instead of defaults (e.g V12 for Ubuntu 20/22) - this improves performance
+INSTALL_POSTGRESQL_SIXTEEN="True"
 # Set this to True if you want to install Nginx!
 INSTALL_NGINX="True"
 # Set the superadmin password - if GENERATE_RANDOM_PASSWORD is set to "True" we will automatically generate a random password, otherwise we use this one
@@ -63,12 +65,27 @@ sudo apt-get update
 sudo apt-get upgrade -y
 
 #--------------------------------------------------
+# Set up the timezones
+#--------------------------------------------------
+# set the correct timezone on ubuntu
+timedatectl set-timezone Asia/Kuwait
+timedatectl
+
+#--------------------------------------------------
 # Install PostgreSQL Server
 #--------------------------------------------------
 echo -e "\n---- Install PostgreSQL Server ----"
-sudo apt-get install postgresql postgresql-server-dev-all -y
+if [ $INSTALL_POSTGRESQL_SIXTEEN = "True" ]; then
+    echo -e "\n---- Installing postgreSQL V16 due to the user it's choice ----"
+    sudo apt -y install postgresql-16
+else
+    echo -e "\n---- Installing the default postgreSQL version based on Linux version ----"
+    sudo apt -y install postgresql postgresql-server-dev-all
+fi
 
-echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
+sudo systemctl start postgresql && sudo systemctl enable postgresql
+
+echo -e "\n=============== Creating the ODOO PostgreSQL User ========================="
 sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
 
 #--------------------------------------------------
@@ -88,20 +105,20 @@ sudo npm install -g rtlcss
 # Install Wkhtmltopdf if needed
 #--------------------------------------------------
 if [ $INSTALL_WKHTMLTOPDF = "True" ]; then
-  echo -e "\n---- Install wkhtml and place shortcuts on correct place for ODOO 13 ----"
-  #pick up correct one from x64 & x32 versions:
-  if [ "`getconf LONG_BIT`" == "64" ];then
-      _url=$WKHTMLTOX_X64
-  else
-      _url=$WKHTMLTOX_X32
-  fi
-  sudo wget $_url
-  sudo gdebi --n `basename $_url`
-  sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin
-  sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin
-else
+echo -e "\n---- Install wkhtmltopdf and place shortcuts on correct place for ODOO 18 ----"
+###  WKHTMLTOPDF download links
+## === Ubuntu Jammy x64 === (for other distributions please replace this link,
+## in order to have correct version of wkhtmltopdf installed, for a danger note refer to
+## https://github.com/odoo/odoo/wiki/Wkhtmltopdf ):
+## https://www.odoo.com/documentation/18.0/setup/install.html#debian-ubuntu
+
+  sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb 
+  sudo apt install ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+  sudo cp /usr/local/bin/wkhtmltoimage /usr/bin/wkhtmltoimage
+  sudo cp /usr/local/bin/wkhtmltopdf /usr/bin/wkhtmltopdf
+   else
   echo "Wkhtmltopdf isn't installed due to the choice of the user!"
-fi
+  fi
 
 echo -e "\n---- Create ODOO system user ----"
 sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'ODOO' --group $OE_USER
