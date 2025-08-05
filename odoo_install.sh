@@ -58,6 +58,11 @@ echo -e "\n---- Update Server ----"
 # libpng12-0 dependency for wkhtmltopdf
 sudo apt-get update
 sudo apt-get upgrade -y
+sudo apt -y install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
 
 #--------------------------------------------------
 # Set up the timezones
@@ -72,8 +77,6 @@ timedatectl
 echo -e "\n---- Install PostgreSQL Server ----"
 if [ $INSTALL_POSTGRESQL_SIXTEEN = "True" ]; then
     echo -e "\n---- Installing postgreSQL V16 due to the user it's choice ----"
-    sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
     sudo apt update
     sudo apt -y install postgresql-16
 else
@@ -90,7 +93,12 @@ sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
 # Install Dependencies
 #--------------------------------------------------
 echo -e "\n--- Installing Python 3 + pip3 --"
-sudo apt-get install git python3 python3-pip build-essential wget python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools node-less libpng12-0 libjpeg-dev gdebi -y
+sudo apt install -y git wget python3 python3-dev python3-pip python3-wheel libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential \
+libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev libzip-dev python3-setuptools node-less \
+python3-venv python3-cffi gdebi zlib1g-dev curl cython3 python3-openssl
+
+sudo pip3 install --upgrade pip --break-system-packages
+sudo pip3 install setuptools wheel --break-system-packages
 
 echo -e "\n================== Install Wkhtmltopdf ============================================="
 sudo apt -y install xfonts-75dpi xfonts-encodings xfonts-utils xfonts-base fontconfig
