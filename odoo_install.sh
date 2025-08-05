@@ -72,6 +72,9 @@ timedatectl
 echo -e "\n---- Install PostgreSQL Server ----"
 if [ $INSTALL_POSTGRESQL_SIXTEEN = "True" ]; then
     echo -e "\n---- Installing postgreSQL V16 due to the user it's choice ----"
+    sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+    sudo apt update
     sudo apt -y install postgresql-16
 else
     echo -e "\n---- Installing the default postgreSQL version based on Linux version ----"
