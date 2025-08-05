@@ -55,8 +55,6 @@ ADMIN_EMAIL="admin@vitalhis.com"
 # Update Server
 #--------------------------------------------------
 echo -e "\n---- Update Server ----"
-# universe package is for Ubuntu 18.x
-sudo add-apt-repository universe
 # libpng12-0 dependency for wkhtmltopdf
 sudo apt-get update
 sudo apt-get upgrade -y
